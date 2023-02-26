@@ -1,34 +1,32 @@
 package com.devsuperior.movieflix.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 
 public class ReviewDTO {
-	
+
 	private Long id;
+	@NotBlank(message = "Preencha o campo para enviar a sua avaliação")
 	private String text;
-	private User user;
+	private UserDTO user;
 	private Long movieId;
 
-	
 	public ReviewDTO() {
-		super();
 	}
 
-	
-	public ReviewDTO(Long id, String text, User user, Long movieId) {
-		super();
-		this.id = id;
-		this.text = text;
-		this.user = user;
-		this.movieId = movieId;
+	public ReviewDTO(Review review) {
+		id = review.getId();
+		text = review.getText();
+		movieId = review.getMovie().getId();
+		user = new UserDTO(review.getUser());
 	}
 
-	public ReviewDTO(Review entity) {
-		this.id = entity.getId();
-		this.text = entity.getText();
-		this.user = entity.getUser();
-		this.movieId = entity.getMovie().getId();
+	public ReviewDTO(Review review, User user) {
+		id = review.getId();
+		text = review.getText();
+		this.user = new UserDTO(user);
 	}
 
 	public Long getId() {
@@ -47,11 +45,11 @@ public class ReviewDTO {
 		this.text = text;
 	}
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 
@@ -62,5 +60,4 @@ public class ReviewDTO {
 	public void setMovieId(Long movieId) {
 		this.movieId = movieId;
 	}
-
 }
